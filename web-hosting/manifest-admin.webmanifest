@@ -1,0 +1,12 @@
+{
+  "name": "EduSanaa — Admin Portal",
+  "short_name": "Admin EduSanaa",
+  "start_url": "/admin/",
+  "scope": "/admin/",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#FF6B81",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

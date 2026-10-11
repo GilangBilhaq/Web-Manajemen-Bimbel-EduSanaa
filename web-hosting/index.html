@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduSanaa — Platform Manajemen Bimbel Digital</title>
+  <meta name="description" content="EduSanaa adalah platform digital untuk manajemen bimbingan belajar. Absensi, jadwal, keuangan, dan komunikasi orang tua dalam satu aplikasi.">
+  <meta name="theme-color" content="#FF6B81">
+  <meta property="og:title" content="EduSanaa — Platform Bimbel Digital">
+  <meta property="og:description" content="Solusi cerdas manajemen bimbel di era digital.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #FF6B81; --pink2: #e85d7a;
+      --dark: #0f0f1a; --dark2: #16213e; --dark3: #1a1a2e;
+      --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; overflow-x: hidden; }
+
+    /* BG */
+    .bg { position: fixed; inset: 0; z-index: 0; background: radial-gradient(ellipse at 20% 20%, #2d0a3e 0%, transparent 55%), radial-gradient(ellipse at 80% 80%, #0a1a3e 0%, transparent 55%), linear-gradient(135deg, #0f0f1a 0%, #16213e 50%, #1a1a2e 100%); }
+    .bg-grid { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(255,107,129,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,107,129,0.05) 1px, transparent 1px); background-size: 60px 60px; animation: gridMove 20s linear infinite; }
+    @keyframes gridMove { 0%{transform:translateY(0)} 100%{transform:translateY(60px)} }
+    .orb { position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0; animation: orbFloat 8s ease-in-out infinite; }
+    .orb-1 { width: 400px; height: 400px; background: rgba(255,107,129,0.12); top: -100px; left: -100px; }
+    .orb-2 { width: 300px; height: 300px; background: rgba(100,130,255,0.1); bottom: -80px; right: -80px; animation-delay: -3s; }
+    .orb-3 { width: 200px; height: 200px; background: rgba(255,200,100,0.08); top: 40%; left: 60%; animation-delay: -6s; }
+    @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(20px,-30px) scale(1.05)} 66%{transform:translate(-15px,15px) scale(0.95)} }
+
+    /* LAYOUT */
+    .wrapper { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; }
+
+    /* LOGO */
+    .logo-wrap { position: relative; margin-bottom: 28px; animation: fadeDown 0.6s ease both; }
+    .logo { width: 88px; height: 88px; border-radius: 28px; background: linear-gradient(135deg, #FF6B81, #c0392b, #8b00ff); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; color: #fff; letter-spacing: -1px; box-shadow: 0 20px 60px rgba(255,107,129,0.4), 0 0 0 1px rgba(255,255,255,0.1); margin: 0 auto; position: relative; }
+    .logo::after { content: ''; position: absolute; inset: -3px; border-radius: 31px; background: linear-gradient(135deg, rgba(255,107,129,0.5), rgba(139,0,255,0.3)); z-index: -1; filter: blur(8px); }
+    .logo-glow { position: absolute; inset: 0; border-radius: 28px; background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent); pointer-events: none; }
+
+    /* HEADING */
+    .title { font-size: clamp(36px, 8vw, 64px); font-weight: 900; letter-spacing: -2px; background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; animation: fadeDown 0.7s ease 0.1s both; }
+    .subtitle { font-size: clamp(14px, 3vw, 18px); color: rgba(255,255,255,0.5); font-weight: 500; max-width: 400px; line-height: 1.6; margin-bottom: 44px; animation: fadeDown 0.7s ease 0.2s both; }
+
+    /* BUTTONS */
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px; animation: fadeUp 0.7s ease 0.3s both; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 16px; font-size: 15px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: all 0.25s ease; font-family: inherit; position: relative; overflow: hidden; white-space: nowrap; }
+    .btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent); opacity: 0; transition: opacity 0.2s; }
+    .btn:hover::before { opacity: 1; }
+    .btn-primary { background: linear-gradient(135deg, var(--pink), var(--pink2)); color: #fff; box-shadow: 0 8px 32px rgba(255,107,129,0.45); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(255,107,129,0.55); }
+    .btn-secondary { background: var(--glass); color: rgba(255,255,255,0.9); border: 1.5px solid var(--glass-border); backdrop-filter: blur(10px); }
+    .btn-secondary:hover { transform: translateY(-3px); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+    .btn-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+
+    /* STATS */
+    .stats-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; animation: fadeUp 0.7s ease 0.4s both; }
+    .stat-card { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; min-width: 130px; transition: transform 0.2s, border-color 0.2s; }
+    .stat-card:hover { transform: translateY(-4px); border-color: rgba(255,107,129,0.3); }
+    .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .stat-val { font-size: 20px; font-weight: 800; color: #fff; line-height: 1; }
+    .stat-lbl { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 600; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* FEATURES */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; max-width: 600px; width: 100%; margin-bottom: 48px; animation: fadeUp 0.7s ease 0.5s both; }
+    .feature-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 16px; text-align: left; transition: all 0.2s; }
+    .feature-item:hover { transform: translateY(-3px); border-color: rgba(255,107,129,0.25); }
+    .feature-emoji { font-size: 24px; margin-bottom: 8px; display: block; }
+    .feature-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .feature-desc { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; line-height: 1.4; }
+
+    /* BADGE */
+    .powered-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; padding: 8px 18px; font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; animation: fadeDown 0.6s ease both; }
+    .powered-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0; animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* FOOTER */
+    .footer { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.25); animation: fadeUp 0.6s ease 0.6s both; }
+    .footer a { color: rgba(255,107,129,0.6); text-decoration: none; }
+    .footer a:hover { color: var(--pink); }
+
+    /* ANIMATIONS */
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* LOADING */
+    #loadingOverlay { position: fixed; inset: 0; z-index: 999; background: var(--dark); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; transition: opacity 0.4s ease; }
+    #loadingOverlay.hidden { opacity: 0; pointer-events: none; }
+    .loading-logo { width: 60px; height: 60px; border-radius: 18px; background: linear-gradient(135deg, #FF6B81, #8b00ff); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #fff; animation: loadPulse 1s ease-in-out infinite; }
+    @keyframes loadPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+    .loading-text { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+    /* MOBILE */
+    @media(max-width:480px) {
+      .btn-group { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 300px; justify-content: center; }
+      .stats-row { gap: 8px; }
+      .stat-card { min-width: 110px; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loadingOverlay">
+  <div class="loading-logo">ES</div>
+  <div class="loading-text">Memuat EduSanaa...</div>
+</div>
+
+<!-- Background -->
+<div class="bg"></div>
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Content -->
+<div class="wrapper">
+
+  <div class="powered-badge">
+    <span class="powered-dot"></span>
+    Sistem Online &bull; Google Workspace
+  </div>
+
+  <div class="logo-wrap">
+    <div class="logo">ES<div class="logo-glow"></div></div>
+  </div>
+
+  <h1 class="title">EduSanaa</h1>
+  <p class="subtitle">Platform Manajemen Bimbingan Belajar Digital — Absensi, Jadwal, Keuangan &amp; Komunikasi Orang Tua.</p>
+
+  <div class="btn-group">
+    <a href="/tutor/" class="btn btn-primary" id="btnTutor">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      Portal Tutor
+    </a>
+    <a href="/admin/" class="btn btn-secondary" id="btnAdmin">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+      Masuk Admin
+    </a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(255,107,129,0.15)">👨‍🎓</div>
+      <div><div class="stat-val">Siswa</div><div class="stat-lbl">Terdaftar</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(100,130,255,0.15)">👨‍🏫</div>
+      <div><div class="stat-val">Tutor</div><div class="stat-lbl">Pengajar</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(34,197,94,0.15)">📅</div>
+      <div><div class="stat-val">Jadwal</div><div class="stat-lbl">Bimbingan</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(251,191,36,0.15)">✅</div>
+      <div><div class="stat-val">Absensi</div><div class="stat-lbl">Digital</div></div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature-item">
+      <span class="feature-emoji">📸</span>
+      <div class="feature-name">Absensi Foto</div>
+      <div class="feature-desc">Dokumentasi sesi dengan verifikasi foto real-time</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">💰</span>
+      <div class="feature-name">Keuangan SPP</div>
+      <div class="feature-desc">Kelola pemasukan & pengeluaran, cetak invoice PDF</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">📲</span>
+      <div class="feature-name">Notif WhatsApp</div>
+      <div class="feature-desc">Tagihan & konfirmasi gaji langsung ke WA</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">📊</span>
+      <div class="feature-name">Laporan Otomatis</div>
+      <div class="feature-desc">Data tersimpan aman di Google Spreadsheet & Drive</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 EduSanaa Education Cloud &nbsp;&bull;&nbsp;
+    Didukung oleh <a href="https://workspace.google.com/" target="_blank">Google Workspace</a>
+  </div>
+
+</div>
+
+<script>
+  // Link Apps Script diatur di /config.js (tombol di atas membuka /tutor/ dan /admin/)
+  // Hide loading overlay
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var ov = document.getElementById('loadingOverlay');
+      if (ov) ov.classList.add('hidden');
+    }, 600);
+  });
+</script>
+</body>
+</html>

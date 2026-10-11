@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSanaa - Portal Tutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#FFFDE7;color:#1a1a2e;min-height:100vh}
+:root{--pink:#F7C8D3;--pink-light:#FF8E9E;--pink-bg:#FFF0F2;--yellow:#FBE29D}
+
+/* TOPBAR */
+.topbar{background:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 12px rgba(0,0,0,.06);position:sticky;top:0;z-index:10;position:relative}
+.topbar-left{display:flex;align-items:center;gap:10px;flex:1}
+.topbar-logo{width:38px;height:38px;border-radius:10px;object-fit:contain;background:#FBE29D;border:1.5px solid #f0f0f0;flex-shrink:0;display:block}
+.topbar-logo-fallback{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#F7C8D3,#ffb347);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.topbar-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.portal-label{font-size:14px;font-weight:700;color:#1a1a2e}
+.portal-sublabel{font-size:10px;color:#9ca3af;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end}
+.hari-badge{background:var(--yellow);color:#374151;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.btn-admin{background:var(--pink-bg);color:var(--pink);border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:none;transition:.2s}
+.btn-admin:hover{background:var(--pink);color:#fff}
+
+/* PAGE */
+.page{padding:20px;max-width:600px;margin:0 auto}
+
+/* SECTION TITLE */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.section-count{font-size:12px;color:#9ca3af;background:#f3f4f6;padding:4px 10px;border-radius:100px;font-weight:600}
+
+/* DAY FILTER */
+.day-filter{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.day-filter::-webkit-scrollbar{display:none}
+.day-btn{border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.15s;font-family:inherit}
+.day-btn.active{background:var(--pink);color:#fff;box-shadow:0 4px 12px rgba(255,107,129,.35)}
+.day-btn:not(.active){background:#fff;color:#6b7280;border:1.5px solid #e5e7eb}
+.day-btn:not(.active):hover{border-color:var(--pink);color:var(--pink)}
+
+/* DATE SEARCH */
+.date-search-row{display:flex;gap:8px;margin-bottom:16px;align-items:center}
+.date-input{padding:8px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:12px;font-family:inherit;outline:none;flex:1;transition:.2s;max-width:180px}
+.date-input:focus{border-color:var(--pink)}
+.btn-search-date{background:var(--pink);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:inherit;transition:.2s}
+.btn-search-date:hover{background:#e85d7a}
+.btn-reset{background:#f3f4f6;color:#6b7280;border:none;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-reset:hover{background:#e5e7eb}
+
+/* JADWAL CARD */
+.jadwal-card{background:#fff;border-radius:16px;padding:18px;margin-bottom:12px;border-left:4px solid var(--pink);box-shadow:0 2px 12px rgba(0,0,0,.05);transition:.2s;position:relative;overflow:hidden}
+.jadwal-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);transform:translateY(-1px)}
+.jadwal-card.sudah-absen{border-left-color:#22c55e;background:linear-gradient(135deg,#fff,#f0fdf4)}
+.jadwal-card.sudah-absen::after{content:'Sudah Absen';position:absolute;top:12px;right:12px;background:#DCFCE7;color:#16a34a;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+.jadwal-card.ditolak{border-left-color:#EF4444}
+.tanggal-info{font-size:12px;color:#6b7280;margin:-6px 0 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tanggal-info b{color:#1a1a2e}
+.tanggal-info .future{background:#FEF9C3;color:#854D0E;padding:2px 8px;border-radius:100px;font-weight:700;font-size:11px}
+.abs-done{display:flex;flex-direction:column;gap:2px}
+.abs-done-title{display:flex;align-items:center;gap:6px;color:#16a34a;font-size:13px;font-weight:700}
+.abs-done-sub{font-size:11px;color:#9ca3af;font-weight:600;padding-left:24px}
+.abs-note{font-size:11px;color:#DC2626;font-weight:600;margin-top:8px;display:flex;align-items:center;gap:4px}
+.jadwal-time{font-size:11px;font-weight:700;color:var(--pink);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.jadwal-name{font-size:16px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.jadwal-info{font-size:13px;color:#6b7280;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.jadwal-dot{width:4px;height:4px;border-radius:50%;background:#d1d5db;flex-shrink:0}
+.jadwal-actions{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid #f3f4f6}
+.btn-absen{background:linear-gradient(135deg,var(--pink),#e85d7a);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;transition:.2s;box-shadow:0 4px 12px rgba(255,107,129,.3)}
+.btn-absen:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,107,129,.4)}
+.btn-absen:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-riwayat{background:var(--yellow);color:#374151;border:none;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:.2s}
+.btn-riwayat:hover{background:#FFF176}
+
+/* EMPTY STATE */
+.empty-card{background:#fff;border-radius:16px;padding:48px 20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.empty-icon{font-size:48px;color:#E5E7EB;margin-bottom:12px;display:block}
+.empty-title{font-size:16px;font-weight:700;color:#9ca3af;margin-bottom:6px}
+.empty-sub{font-size:13px;color:#c4c4c4}
+
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:100;padding:0;backdrop-filter:blur(2px)}
+.modal-overlay.open{display:flex}
+@media(min-width:600px){
+  .modal-overlay{align-items:center}
+  .modal-sheet{border-radius:20px !important;max-width:520px;margin:0 auto}
+}
+.modal-sheet{background:#fff;width:100%;max-height:95vh;overflow-y:auto;border-radius:20px 20px 0 0;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* FORM ABSENSI */
+.form-header{padding:20px 20px 0;display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.form-header-icon{width:44px;height:44px;border-radius:12px;background:var(--pink-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.form-header-icon .mat-icon{color:var(--pink);font-size:22px}
+.form-body{padding:0 20px 20px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:14px;font-family:inherit;outline:none;transition:.2s;background:#fff;color:#1a1a2e}
+.form-input:focus{border-color:var(--pink)}
+.form-input:read-only{background:#f9fafb;color:#6b7280}
+.file-upload-area{border:2px dashed #E5E7EB;border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.file-upload-area:hover,.file-upload-area.has-file{border-color:var(--pink);background:var(--pink-bg)}
+.file-upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-upload-icon{font-size:32px;color:#d1d5db;margin-bottom:8px;display:block}
+.file-upload-area.has-file .file-upload-icon{color:var(--pink)}
+.file-upload-text{font-size:13px;font-weight:600;color:#9ca3af}
+.file-upload-area.has-file .file-upload-text{color:var(--pink)}
+.file-preview{width:100%;max-height:160px;object-fit:cover;border-radius:8px;margin-top:10px;display:none}
+.pin-input{font-size:22px;letter-spacing:14px;text-align:center;font-family:monospace;font-weight:700;color:#1a1a2e}
+.pin-hint{font-size:11px;color:#9ca3af;text-align:center;margin-top:6px}
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--pink),#e85d7a);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;box-shadow:0 6px 20px rgba(255,107,129,.35)}
+.btn-submit:hover{transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-cancel{width:100%;background:#f3f4f6;color:#374151;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:.2s}
+.btn-cancel:hover{background:#e5e7eb}
+.alert-box{padding:12px 14px;border-radius:10px;font-size:13px;font-weight:600;display:none;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px}
+.alert-box{display:none}
+.alert-success{background:#DCFCE7;color:#166534;border:1px solid #BBF7D0}
+.alert-error{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA}
+
+/* MODAL RIWAYAT */
+.riwayat-header{padding:20px;border-bottom:1px solid #f0f0f0}
+.riwayat-honor-card{background:linear-gradient(135deg,var(--pink),#e85d7a);color:#fff;border-radius:14px;padding:18px;margin-bottom:16px}
+.riwayat-honor-label{font-size:11px;opacity:.8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.riwayat-honor-value{font-size:26px;font-weight:800;margin:4px 0}
+.riwayat-honor-sub{font-size:12px;opacity:.8}
+.sesi-item{padding:14px 0;border-bottom:1px solid #f9fafb;display:flex;align-items:flex-start;gap:12px}
+.sesi-dot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0;margin-top:4px}
+.sesi-dot.verified{background:#22c55e}
+.sesi-dot.ditolak{background:#EF4444}
+.sesi-dot.menunggu{background:#F59E0B}
+.sesi-time{font-size:11px;color:#9ca3af}
+.sesi-name{font-size:14px;font-weight:600}
+.sesi-info{font-size:12px;color:#6b7280;margin-top:2px}
+.sesi-status{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;white-space:nowrap;margin-left:auto;flex-shrink:0}
+.status-verified{background:#DCFCE7;color:#166534}
+.status-menunggu{background:#FEF9C3;color:#854D0E}
+.status-ditolak{background:#FEE2E2;color:#991B1B}
+
+/* LOADING */
+.loader-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;color:#9ca3af}
+.spinner{width:32px;height:32px;border:3px solid #f0f0f0;border-top-color:var(--pink);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* CANVAS hidden */
+#compressCanvas{display:none}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);animation:fadeUp .3s ease;white-space:nowrap}
+.toast-success{background:#DCFCE7;color:#166534}
+.toast-error{background:#FEE2E2;color:#991B1B}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div id="topbarLogoWrap" class="topbar-logo-fallback">ES</div>
+  </div>
+  <div class="topbar-center">
+    <div class="portal-label">Portal Tutor</div>
+    <div class="portal-sublabel">EduSanaa Bimbel</div>
+  </div>
+  <div class="topbar-right">
+    <div class="hari-badge">
+      <span class="material-symbols-outlined" style="font-size:14px">today</span>
+      <span id="hariIniLabel">Hari Ini</span>
+    </div>
+    <a href="<?= scriptUrl ?>?view=admin" target="_top" class="btn-admin">
+      <span class="material-symbols-outlined" style="font-size:16px">admin_panel_settings</span>
+      Admin
+    </a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+
+  <!-- Day Filter -->
+  <div class="day-filter" id="dayFilter">
+    <button class="day-btn active" id="btn-hari-ini" onclick="setHariFilter('hari-ini')">Hari Ini</button>
+    <button class="day-btn" onclick="setHariFilter('Senin')">Senin</button>
+    <button class="day-btn" onclick="setHariFilter('Selasa')">Selasa</button>
+    <button class="day-btn" onclick="setHariFilter('Rabu')">Rabu</button>
+    <button class="day-btn" onclick="setHariFilter('Kamis')">Kamis</button>
+    <button class="day-btn" onclick="setHariFilter('Jumat')">Jumat</button>
+    <button class="day-btn" onclick="setHariFilter('Sabtu')">Sabtu</button>
+    <button class="day-btn" onclick="setHariFilter('Minggu')">Minggu</button>
+  </div>
+
+  <!-- Date Search -->
+  <div class="date-search-row">
+    <input type="date" class="date-input" id="filterTanggal" title="Cari jadwal berdasarkan tanggal tertentu">
+    <button class="btn-search-date" onclick="searchByDate()">
+      <span class="material-symbols-outlined" style="font-size:14px">search</span> Cari Tanggal
+    </button>
+    <button class="btn-reset" onclick="resetDateSearch()">Reset</button>
+  </div>
+
+  <!-- Section Header -->
+  <div class="section-header">
+    <div class="section-title">Jadwal Bimbingan</div>
+    <span class="section-count" id="jadwalCount">-</span>
+  </div>
+  <div class="tanggal-info" id="tanggalInfo"></div>
+
+  <!-- Jadwal List -->
+  <div id="jadwalContainer">
+    <div class="loader-wrap">
+      <div class="spinner"></div>
+      <span style="font-size:13px">Memuat jadwal...</span>
+    </div>
+  </div>
+</div>
+
+<!-- CANVAS for image compression -->
+<canvas id="compressCanvas"></canvas>
+
+<!-- MODAL: Form Absensi -->
+<div class="modal-overlay" id="modalAbsensi">
+  <div class="modal-sheet">
+    <!-- Handle drag (mobile) -->
+    <div style="padding:12px;display:flex;justify-content:center">
+      <div style="width:40px;height:4px;background:#e5e7eb;border-radius:100px"></div>
+    </div>
+
+    <div class="form-header">
+      <div class="form-header-icon">
+        <span class="material-symbols-outlined mat-icon">photo_camera</span>
+      </div>
+      <div>
+        <div style="font-size:16px;font-weight:700">Form Absensi Sesi</div>
+        <div style="font-size:12px;color:#9ca3af" id="absensi-subtitle">-</div>
+      </div>
+    </div>
+
+    <div class="form-body">
+      <input type="hidden" id="absensi-id-jadwal">
+      <input type="hidden" id="absensi-id-tutor">
+      <input type="hidden" id="absensi-tanggal">
+
+      <!-- Info Read-only -->
+      <div class="form-group">
+        <label>Tutor Pengajar</label>
+        <input type="text" id="absensi-nama-tutor" class="form-input" readonly>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="form-group">
+          <label>Siswa</label>
+          <input type="text" id="absensi-nama-siswa" class="form-input" readonly>
+        </div>
+        <div class="form-group">
+          <label>Kelas</label>
+          <input type="text" id="absensi-kelas" class="form-input" readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Mata Pelajaran</label>
+        <input type="text" id="absensi-mapel" class="form-input" readonly>
+      </div>
+
+      <!-- Foto Upload -->
+      <div class="form-group">
+        <label>Foto Dokumentasi Sesi *</label>
+        <div class="file-upload-area" id="uploadArea">
+          <input type="file" id="fotoInput" accept="image/*" capture="environment" onchange="onFotoChange()">
+          <span class="material-symbols-outlined file-upload-icon">add_a_photo</span>
+          <div class="file-upload-text">Ketuk untuk ambil/pilih foto</div>
+          <div style="font-size:11px;color:#c4c4c4;margin-top:4px">Gambar akan dikompresi otomatis</div>
+          <img id="fotoPreview" class="file-preview" alt="Preview foto">
+        </div>
+      </div>
+
+      <!-- Laporan -->
+      <div class="form-group">
+        <label>Laporan &amp; Catatan Sesi *</label>
+        <textarea id="absensi-laporan" class="form-input" rows="3" placeholder="Materi yang diajarkan, progress siswa, atau catatan penting lainnya..." style="resize:vertical"></textarea>
+      </div>
+
+      <!-- PIN -->
+      <div class="form-group">
+        <label>PIN Tutor (Konfirmasi Identitas) *</label>
+        <input type="password" id="absensi-pin" class="form-input pin-input" maxlength="6" inputmode="numeric" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+        <div class="pin-hint">Masukkan 4-6 digit PIN rahasia Anda</div>
+      </div>
+
+      <!-- Alert -->
+      <div id="absensiAlert" class="alert-box"></div>
+
+      <!-- Buttons -->
+      <button class="btn-submit" id="btnKirim" onclick="submitAbsensi()">
+        <span class="material-symbols-outlined" style="font-size:18px">send</span>
+        Kirim Laporan
+      </button>
+      <button class="btn-cancel" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Riwayat Sesi Tutor -->
+<div class="modal-overlay" id="modalRiwayat">
+  <div class="modal-sheet">
+    <div style="padding:12px;display:flex;justify-content:center">
+      <div style="width:40px;height:4px;background:#e5e7eb;border-radius:100px"></div>
+    </div>
+    <div class="riwayat-header">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:700">Riwayat Mengajar</div>
+        <button onclick="closeRiwayat()" style="border:none;background:none;cursor:pointer;font-size:22px;color:#9ca3af;line-height:1">&#215;</button>
+      </div>
+
+    </div>
+    <div style="padding:0 20px 20px" id="riwayatList">
+      <div class="loader-wrap"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+var semuaJadwal = [];
+var absensiStatus = {};      // key: ID_Jadwal|yyyy-MM-dd  -> Status_Verifikasi
+var activeHariFilter = 'hari-ini';
+var dateSearchActive = false;
+var currentList = [];        // jadwal yang sedang ditampilkan
+var currentDateKey = '';     // tanggal sesi (yyyy-MM-dd) yang sedang ditampilkan
+
+var hariMap = {0:'Minggu',1:'Senin',2:'Selasa',3:'Rabu',4:'Kamis',5:'Jumat',6:'Sabtu'};
+var hariIniStr = hariMap[new Date().getDay()];
+
+document.getElementById('hariIniLabel').textContent = hariIniStr;
+
+// Load logo lembaga untuk topbar
+function loadTopbarLogo() {
+  google.script.run
+    .withSuccessHandler(function(res) {
+      var wrap = document.getElementById('topbarLogoWrap');
+      if (!wrap) return;
+      if (res && res.dataUrl) {
+        wrap.outerHTML = '<img id="topbarLogoWrap" class="topbar-logo" src="' + res.dataUrl + '" alt="Logo">';
+      }
+    })
+    .withFailureHandler(function() {})
+    .getLogoDataUrl();
+}
+loadTopbarLogo();
+
+// ---- Helper tanggal (format kunci: yyyy-MM-dd) ----
+function pad2(n) { return ('0' + n).slice(-2); }
+function dateToKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+function keyToDate(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function keyToDisplay(k) { if (!k) return '-'; var p = k.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+function todayKey() { return dateToKey(new Date()); }
+function getHariFromDate(k) { return hariMap[keyToDate(k).getDay()] || ''; }
+function statusKey(idJadwal, dk) { return idJadwal + '|' + dk; }
+
+// Tanggal terakhir (hari ini atau sebelumnya) yang jatuh pada nama hari tsb
+function lastDateForHari(hari) {
+  var d = new Date();
+  for (var i = 0; i < 7; i++) {
+    if (hariMap[d.getDay()] === hari) return dateToKey(d);
+    d.setDate(d.getDate() - 1);
+  }
+  return todayKey();
+}
+
+// ==============================
+// LOAD DATA
+// ==============================
+function loadJadwal() {
+  document.getElementById('jadwalContainer').innerHTML = '<div class="loader-wrap"><div class="spinner"></div><span style="font-size:13px">Memuat jadwal...</span></div>';
+  google.script.run
+    .withSuccessHandler(function(jadwals) {
+      semuaJadwal = jadwals || [];
+      // Ambil status absensi (per jadwal + tanggal sesi) untuk mencegah absen ganda
+      google.script.run
+        .withSuccessHandler(function(list) {
+          buildStatusMap(list);
+          rerender();
+        })
+        .withFailureHandler(function() { rerender(); })
+        .getStatusAbsensiTutor();
+    })
+    .withFailureHandler(function(err) {
+      document.getElementById('jadwalContainer').innerHTML = '<div class="empty-card"><span class="material-symbols-outlined empty-icon">wifi_off</span><div class="empty-title">Gagal Memuat Jadwal</div><div class="empty-sub">' + escHtml(err.message) + '</div></div>';
+    })
+    .getAllJadwalWithNames();
+}
+
+function buildStatusMap(list) {
+  absensiStatus = {};
+  (list || []).forEach(function(a) {
+    if (!a.ID_Jadwal || !a.Tanggal_Sesi) return;
+    var k = statusKey(a.ID_Jadwal, a.Tanggal_Sesi);
+    // Status selain 'Ditolak' lebih diutamakan (berarti sesi sudah tercatat)
+    if (!absensiStatus[k] || absensiStatus[k] === 'Ditolak') absensiStatus[k] = a.Status_Verifikasi || 'Menunggu';
+  });
+}
+
+// Render ulang tampilan aktif (mode hari ATAU mode cari tanggal)
+function rerender() {
+  if (dateSearchActive) searchByDate(true);
+  else renderJadwal();
+}
+
+// ==============================
+// SEARCH BY DATE
+// ==============================
+function searchByDate(silent) {
+  var dateInput = document.getElementById('filterTanggal').value; // yyyy-MM-dd
+  if (!dateInput) { if (!silent) showToast('Pilih tanggal dulu.', 'error'); return; }
+
+  var hari = getHariFromDate(dateInput);
+  if (!hari) return;
+
+  dateSearchActive = true;
+
+  // Deactivate day buttons
+  var btns = document.querySelectorAll('.day-btn');
+  btns.forEach(function(b) { b.className = 'day-btn'; });
+
+  // Filter jadwal by hari name of the selected date
+  var filtered = semuaJadwal.filter(function(j) {
+    return matchJadwalTanggal(j, hari, dateInput);
+  });
+
+  renderJadwalList(filtered, dateInput, hari);
+}
+
+function resetDateSearch() {
+  document.getElementById('filterTanggal').value = '';
+  dateSearchActive = false;
+  activeHariFilter = 'hari-ini';
+  var btns = document.querySelectorAll('.day-btn');
+  btns.forEach(function(b) { b.className = 'day-btn'; });
+  document.getElementById('btn-hari-ini').className = 'day-btn active';
+  renderJadwal();
+}
+
+// ==============================
+// RENDER JADWAL
+// ==============================
+function setHariFilter(hari) {
+  dateSearchActive = false;
+  document.getElementById('filterTanggal').value = '';
+  activeHariFilter = hari;
+  var btns = document.querySelectorAll('.day-btn');
+  btns.forEach(function(b) { b.className = 'day-btn'; });
+
+  if (hari === 'hari-ini') {
+    document.getElementById('btn-hari-ini').className = 'day-btn active';
+  } else {
+    btns.forEach(function(b) {
+      if (b.textContent === hari) b.className = 'day-btn active';
+    });
+  }
+  renderJadwal();
+}
+
+function renderJadwal() {
+  if (dateSearchActive) return; // jangan override saat search tanggal aktif
+  var targetHari = activeHariFilter === 'hari-ini' ? hariIniStr : activeHariFilter;
+  // Tombol hari = tanggal terakhir (<= hari ini) yang jatuh pada hari tersebut
+  var dk = activeHariFilter === 'hari-ini' ? todayKey() : lastDateForHari(targetHari);
+  var filtered = semuaJadwal.filter(function(j) {
+    return matchJadwalTanggal(j, targetHari, dk);
+  });
+  renderJadwalList(filtered, dk, targetHari);
+}
+
+// Jadwal bertanggal hanya tampil di tanggalnya; jadwal lama (tanpa tanggal) tetap mingguan per hari
+function matchJadwalTanggal(j, hari, dk) {
+  if (j.Tanggal) return j.Tanggal === dk;
+  return (j.Hari || '').toLowerCase() === String(hari || '').toLowerCase();
+}
+
+function renderJadwalList(filtered, dk, labelHari) {
+  currentList = filtered;
+  currentDateKey = dk;
+  var isFuture = dk > todayKey();
+  var container = document.getElementById('jadwalContainer');
+  document.getElementById('jadwalCount').textContent = filtered.length + ' jadwal';
+
+  var tercatat = filtered.filter(function(j) {
+    var st = absensiStatus[statusKey(j.ID_Jadwal, dk)];
+    return st && st !== 'Ditolak';
+  }).length;
+  var info = '<span class="material-symbols-outlined" style="font-size:14px">event</span>' +
+    'Sesi <b>' + escHtml(labelHari) + ', ' + keyToDisplay(dk) + '</b>' +
+    (filtered.length ? ' &bull; ' + tercatat + '/' + filtered.length + ' sudah absen' : '');
+  if (isFuture) info += ' <span class="future">Belum bisa diabsen</span>';
+  document.getElementById('tanggalInfo').innerHTML = info;
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-card">' +
+      '<span class="material-symbols-outlined empty-icon">event_busy</span>' +
+      '<div class="empty-title">Tidak Ada Jadwal</div>' +
+      '<div class="empty-sub">Tidak ada jadwal bimbingan untuk ' + escHtml(labelHari) + ' (' + keyToDisplay(dk) + ').</div>' +
+      '</div>';
+    return;
+  }
+
+  var html = '';
+  filtered.forEach(function(j, idx) {
+    var st = absensiStatus[statusKey(j.ID_Jadwal, dk)];
+    var sudah = !!st && st !== 'Ditolak';
+    var ditolak = st === 'Ditolak';
+    var cardClass = 'jadwal-card' + (sudah ? ' sudah-absen' : (ditolak ? ' ditolak' : ''));
+    var jam = (j.Jam_Mulai || '-') + (j.Jam_Selesai ? ' - ' + j.Jam_Selesai : '');
+
+    html += '<div class="' + cardClass + '">';
+    html += '<div class="jadwal-time"><span class="material-symbols-outlined" style="font-size:14px">schedule</span>' + escHtml(jam) + '</div>';
+    html += '<div class="jadwal-name">' + escHtml(j.Nama_Siswa) + '</div>';
+    html += '<div class="jadwal-info">';
+    html += '<span>' + escHtml(j.Mata_Pelajaran) + '</span>';
+    html += '<span class="jadwal-dot"></span>';
+    html += '<span>' + escHtml(j.Nama_Tutor) + '</span>';
+    if (j.Ruang && j.Ruang !== '-') {
+      html += '<span class="jadwal-dot"></span>';
+      html += '<span style="display:flex;align-items:center;gap:3px"><span class="material-symbols-outlined" style="font-size:13px">meeting_room</span>' + escHtml(j.Ruang) + '</span>';
+    }
+    html += '</div>';
+    if (ditolak) {
+      html += '<div class="abs-note"><span class="material-symbols-outlined" style="font-size:14px">error</span>Absen sebelumnya ditolak admin. Silakan absen ulang.</div>';
+    }
+
+    html += '<div class="jadwal-actions">';
+    if (sudah) {
+      html += '<div class="abs-done"><div class="abs-done-title"><span class="material-symbols-outlined" style="font-size:18px">check_circle</span>Absensi Tercatat</div>';
+      html += '<div class="abs-done-sub">' + (st === 'Terverifikasi' ? 'Sudah diverifikasi admin' : 'Menunggu verifikasi admin') + '</div></div>';
+    } else if (isFuture) {
+      html += '<button class="btn-absen" disabled><span class="material-symbols-outlined" style="font-size:16px">lock_clock</span> Belum Waktunya</button>';
+    } else {
+      html += '<button class="btn-absen" onclick="openModalAbsensiIdx(' + idx + ')">';
+      html += '<span class="material-symbols-outlined" style="font-size:16px">how_to_reg</span> ' + (ditolak ? 'Absen Ulang' : 'Isi Absen') + '</button>';
+    }
+    html += '<button class="btn-riwayat" onclick="openRiwayat(\'' + escAttr(j.ID_Tutor) + '\')">';
+    html += '<span class="material-symbols-outlined" style="font-size:14px">history</span>Riwayat</button>';
+    html += '</div>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+// ==============================
+// MODAL ABSENSI
+// ==============================
+function openModalAbsensiIdx(idx) {
+  var j = currentList[idx];
+  if (!j) return;
+  var dk = currentDateKey;
+  var st = absensiStatus[statusKey(j.ID_Jadwal, dk)];
+  if (st && st !== 'Ditolak') { showToast('Sesi ini sudah diabsen.', 'error'); rerender(); return; }
+  if (dk > todayKey()) { showToast('Tanggal ini belum tiba.', 'error'); return; }
+  openModalAbsensi(j, dk);
+}
+
+function openModalAbsensi(j, dk) {
+  document.getElementById('absensi-id-jadwal').value = j.ID_Jadwal || '';
+  document.getElementById('absensi-id-tutor').value = j.ID_Tutor || '';
+  document.getElementById('absensi-tanggal').value = dk || todayKey();
+  document.getElementById('absensi-subtitle').textContent = (j.Mata_Pelajaran||'') + ' \u2022 ' + (j.Hari||'') + ', ' + keyToDisplay(dk || todayKey()) + ' \u2022 ' + (j.Jam_Mulai||'') + (j.Jam_Selesai ? ' - ' + j.Jam_Selesai : '');
+  document.getElementById('absensi-nama-tutor').value = j.Nama_Tutor || '';
+  document.getElementById('absensi-nama-siswa').value = j.Nama_Siswa || '';
+  document.getElementById('absensi-kelas').value = j.Kelas || '';
+  document.getElementById('absensi-mapel').value = j.Mata_Pelajaran || '';
+  document.getElementById('absensi-laporan').value = '';
+  document.getElementById('absensi-pin').value = '';
+  document.getElementById('fotoInput').value = '';
+  resetUploadArea();
+  setAbsensiAlert('', '');
+  document.getElementById('modalAbsensi').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalAbsensi').classList.remove('open');
+}
+
+function resetUploadArea() {
+  var area = document.getElementById('uploadArea');
+  area.className = 'file-upload-area';
+  var icon = area.querySelector('.file-upload-icon');
+  if (icon) icon.textContent = 'add_a_photo';
+  var text = area.querySelector('.file-upload-text');
+  if (text) text.textContent = 'Ketuk untuk ambil/pilih foto';
+  var prev = document.getElementById('fotoPreview');
+  prev.style.display = 'none';
+  prev.src = '';
+}
+
+function onFotoChange() {
+  var file = document.getElementById('fotoInput').files[0];
+  if (!file) { resetUploadArea(); return; }
+  var area = document.getElementById('uploadArea');
+  area.className = 'file-upload-area has-file';
+  var icon = area.querySelector('.file-upload-icon');
+  if (icon) icon.textContent = 'check_circle';
+  var text = area.querySelector('.file-upload-text');
+  if (text) text.textContent = file.name;
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var prev = document.getElementById('fotoPreview');
+    prev.src = e.target.result;
+    prev.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function setAbsensiAlert(msg, type) {
+  var el = document.getElementById('absensiAlert');
+  if (!msg) { el.style.display = 'none'; return; }
+  el.className = 'alert-box alert-' + type;
+  el.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px">' + (type === 'success' ? 'check_circle' : 'error') + '</span>' + escHtml(msg);
+  el.style.display = 'flex';
+}
+
+function submitAbsensi() {
+  var idJadwal = document.getElementById('absensi-id-jadwal').value;
+  var idTutor = document.getElementById('absensi-id-tutor').value;
+  var tanggalSesi = document.getElementById('absensi-tanggal').value || todayKey();
+  var laporan = document.getElementById('absensi-laporan').value.trim();
+  var pin = document.getElementById('absensi-pin').value.trim();
+  var fileInput = document.getElementById('fotoInput');
+  var file = fileInput.files[0];
+
+  if (!file) { setAbsensiAlert('Foto dokumentasi wajib diambil/dipilih.', 'error'); return; }
+  if (!laporan) { setAbsensiAlert('Laporan sesi tidak boleh kosong.', 'error'); return; }
+  if (!pin) { setAbsensiAlert('PIN tutor wajib diisi.', 'error'); return; }
+
+  var btn = document.getElementById('btnKirim');
+  btn.disabled = true;
+  btn.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite"></div> Mengkompresi & Mengirim...';
+  setAbsensiAlert('', '');
+
+  // Compress image
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.getElementById('compressCanvas');
+      var MAX = 800;
+      var w = img.width, h = img.height;
+      if (w > h && w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      else if (h >= w && h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var base64 = canvas.toDataURL('image/jpeg', 0.75);
+
+      var payload = {
+        idJadwal: idJadwal,
+        idTutor: idTutor,
+        pinTutor: pin,
+        laporan: laporan,
+        base64Image: base64,
+        tanggalSesi: tanggalSesi
+      };
+
+      google.script.run
+        .withSuccessHandler(function(res) {
+          btn.disabled = false;
+          btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">send</span> Kirim Laporan';
+          if (res && res.success) {
+            setAbsensiAlert(res.message, 'success');
+            absensiStatus[statusKey(idJadwal, res.tanggalSesi || tanggalSesi)] = 'Menunggu';
+            rerender(); // langsung kunci kartu (berlaku juga di mode Cari Tanggal)
+            setTimeout(function() {
+              closeModal();
+              showToast('Absensi berhasil disimpan!', 'success');
+            }, 1200);
+          } else {
+            setAbsensiAlert((res && res.message) || 'Terjadi kesalahan.', 'error');
+          }
+        })
+        .withFailureHandler(function(err) {
+          btn.disabled = false;
+          btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">send</span> Kirim Laporan';
+          var msg = (err && err.message) || 'Coba lagi.';
+          if (/sudah diabsen/i.test(msg)) {
+            // Server menolak karena sudah ada absen untuk sesi ini -> kunci kartunya
+            absensiStatus[statusKey(idJadwal, tanggalSesi)] = 'Menunggu';
+            rerender();
+            setAbsensiAlert(msg, 'error');
+          } else {
+            setAbsensiAlert('Gagal menyimpan: ' + msg, 'error');
+          }
+        })
+        .submitAbsensi(payload);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ==============================
+// MODAL RIWAYAT
+// ==============================
+function openRiwayat(idTutor) {
+  document.getElementById('modalRiwayat').classList.add('open');
+  document.getElementById('riwayatList').innerHTML = '<div class="loader-wrap"><div class="spinner"></div></div>';
+
+  google.script.run
+    .withSuccessHandler(renderRiwayat)
+    .withFailureHandler(function(err) {
+      document.getElementById('riwayatList').innerHTML = '<p style="color:#EF4444;font-size:13px;padding:20px">Gagal memuat: ' + escHtml(err.message) + '</p>';
+    })
+    .getRiwayatTutor(idTutor);
+}
+
+function renderRiwayat(data) {
+  if (!data) return;
+
+
+  var list = data.riwayat || [];
+  var listEl = document.getElementById('riwayatList');
+  if (list.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;font-size:13px">Belum ada riwayat mengajar.</div>';
+    return;
+  }
+  var html = '';
+  list.slice().reverse().forEach(function(r) {
+    var sv = r.Status_Verifikasi || 'Menunggu';
+    var dotClass = sv === 'Terverifikasi' ? 'verified' : (sv === 'Ditolak' ? 'ditolak' : 'menunggu');
+    var statusClass = sv === 'Terverifikasi' ? 'status-verified' : (sv === 'Ditolak' ? 'status-ditolak' : 'status-menunggu');
+    html += '<div class="sesi-item">';
+    html += '<div class="sesi-dot ' + dotClass + '"></div>';
+    html += '<div style="flex:1">';
+    var sesiTxt = r.Tanggal_Sesi ? 'Sesi ' + keyToDisplay(String(r.Tanggal_Sesi).substring(0, 10)) + ' \u2022 ' : '';
+    html += '<div class="sesi-time">' + escHtml(sesiTxt + 'Diinput ' + (r.Timestamp||'-')) + '</div>';
+    html += '<div class="sesi-name">' + escHtml(r.Nama_Siswa||'-') + ' &bull; ' + escHtml(r.Nama_Tutor||'-') + '</div>';
+    html += '<div class="sesi-info">' + escHtml(r.Mata_Pelajaran||'-') + ' &bull; Kelas: ' + escHtml(r.Kelas || '-') + '</div>';
+    html += '</div>';
+    html += '<span class="sesi-status ' + statusClass + '">' + escHtml(sv) + '</span>';
+    html += '</div>';
+  });
+  listEl.innerHTML = html;
+}
+
+function closeRiwayat() {
+  document.getElementById('modalRiwayat').classList.remove('open');
+}
+
+// ==============================
+// HELPERS
+// ==============================
+function formatRp(n) { return Number(n||0).toLocaleString('id-ID'); }
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escAttr(s) { return escHtml(s); }
+
+function showToast(msg, type) {
+  var wrap = document.getElementById('toastWrap');
+  var toast = document.createElement('div');
+  toast.className = 'toast toast-' + (type||'success');
+  toast.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px">' + (type==='error' ? 'error' : 'check_circle') + '</span>' + escHtml(msg);
+  wrap.appendChild(toast);
+  setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
+}
+
+// ==============================
+// START
+// ==============================
+document.addEventListener('DOMContentLoaded', function() { loadJadwal(); });
+</script>
+</body>
+</html>

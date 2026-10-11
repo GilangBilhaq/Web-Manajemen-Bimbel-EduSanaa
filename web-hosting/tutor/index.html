@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Portal Tutor — EduSanaa</title>
+  <meta name="description" content="Portal Tutor EduSanaa: lihat jadwal bimbingan dan isi absensi sesi.">
+  <meta name="theme-color" content="#FF6B81">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Tutor EduSanaa">
+  <link rel="manifest" href="/manifest-tutor.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="stylesheet" href="/portal.css">
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-logo">ES</div>
+    <div class="loader-text">Memuat Portal Tutor...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+  <iframe id="app" title="Portal Tutor EduSanaa"
+    allow="camera; microphone; geolocation; clipboard-read; clipboard-write; fullscreen"
+    allowfullscreen></iframe>
+  <script src="/config.js"></script>
+  <script>window.PORTAL_VIEW = 'tutor';</script>
+  <script src="/portal.js"></script>
+</body>
+</html>
